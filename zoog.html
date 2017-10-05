@@ -1,0 +1,85 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+
+<head>
+    <title>p5js Template</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.3/p5.js"></script>
+    
+    <script>
+        function setup() {
+            createCanvas(800,600);
+            
+            background(137, 193, 146);
+            
+            
+            //Head + Brown
+            fill(165,114,87);
+            ellipse(400,140,120,120);
+            
+            //Body + Purple
+            fill(100, 38, 175);
+            rectMode(CORNERS)
+            rect(340,200,460,380);
+            
+            //Arms
+            
+            line(340,205,300,300);
+            line(460,205,500,300);
+            
+            //Legs
+            line(360,380,330,460);
+            line(440,380,470,460);
+          
+            // Text
+            fill(0);
+            textSize(20);
+            textAlign(CENTER);
+            text("TS",360,240);
+            
+            //Eyes
+            strokeWeight(8);
+            point(370,135)
+            point(430,135)
+            
+            
+        }
+
+        function draw() {
+            
+            
+            strokeWeight(5);
+            line(390,102,408,102);
+        
+            stroke(135,4,0);
+            fill(54, 198, 51, 4);
+            ellipse(370,100,40,40);
+            
+            ellipse(430,100,40,40);
+            
+            strokeWeight(0.7);
+            stroke(0);
+            fill(54, 198, 51,4);
+            arc(600,200,200,200,3.14,0);
+            
+            fill(0,0,0,40)
+            rectMode(CENTER)
+            rect(600,200,200,10)
+            
+            fill(0);
+            textSize(30);
+            textAlign(CENTER);
+            text("Time Portal",600,80);
+           
+            
+            
+            
+            
+        }
+    </script>
+</head>
+
+<body>
+
+</body>
+
+</html>
