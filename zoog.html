@@ -9,8 +9,8 @@
         function setup() {
             createCanvas(800,600);
             
+            //Green Background
             background(137, 193, 146);
-            
             
             //Head + Brown
             fill(165,114,87);
@@ -22,7 +22,6 @@
             rect(340,200,460,380);
             
             //Arms
-            
             line(340,205,300,300);
             line(460,205,500,300);
             
@@ -30,11 +29,11 @@
             line(360,380,330,460);
             line(440,380,470,460);
           
-            // Text
+            //Text
             fill(0);
             textSize(20);
             textAlign(CENTER);
-            text("TS",360,240);
+            text("TT",360,240);
             
             //Eyes
             strokeWeight(8);
@@ -46,25 +45,28 @@
 
         function draw() {
             
-            
+            //The black line to hold the goggles [Located in between]
             strokeWeight(5);
             line(390,102,408,102);
-        
+            
+            //The Goggles
             stroke(135,4,0);
             fill(54, 198, 51, 4);
-            ellipse(370,100,40,40);
+            ellipse(370,100,40,40); //Left Goggle
+            ellipse(430,100,40,40); //Right Goggle
             
-            ellipse(430,100,40,40);
-            
+            //The Time Machine [Arc]
             strokeWeight(0.7);
             stroke(0);
             fill(54, 198, 51,4);
             arc(600,200,200,200,3.14,0);
             
+            //The Time Portal [Rectangle on bottom]
             fill(0,0,0,40)
             rectMode(CENTER)
             rect(600,200,200,10)
             
+            //Label [Time Portal]
             fill(0);
             textSize(30);
             textAlign(CENTER);
