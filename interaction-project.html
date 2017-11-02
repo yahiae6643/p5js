@@ -19,21 +19,22 @@
             bc_2: 255,
             bc_3: 255
         }
-        // Determines If the squares rotate 
+        
+        // Determines If the squares rotate & The tilt of the shapes
         let angle = 0;
         
         // Determines how the squares rotate [Counter-clockwise or Clockwise]
         let movement = 0;
             
-        // Sizes For The Ellipse and Squares
+        // Width and Height For The Ellipse and Squares
         let sizes = {
             s_1: 60, //Ellipse
             s_2: 120, //The First Square
             s_3: 180, //The Second Square
-            s_4: 240 
+            s_4: 240  //The Third Square
         }
         
-        //  ellipse midpoint and how much the squares will translate
+        //  Ellipse's midpoint and how much the squares will translate
         let points = {
             midpoint: 0, // X coord for the ellipse
             midpoint_2: 0, // Y coord for the ellipse
@@ -50,9 +51,8 @@
 
         function setup() {
             createCanvas(400, 400);
-            angleMode(DEGREES);
+            angleMode(DEGREES); // It will convert the number in every "rotate()" from radians to angles 
             rectMode(CENTER);
-            smooth(); // Makes it smooth ( ͡° ͜ʖ ͡°)
         }
 
 
@@ -61,29 +61,28 @@
         function draw() {
 
             // Stroke and Background set by the values outside "function setup();"
-            background(backc.bc_1, backc.bc_2, backc.bc_3);
-            stroke(rgb.r, rgb.g, rgb.b);
+            background(backc.bc_1, backc.bc_2, backc.bc_3); // White background
+            stroke(rgb.r, rgb.g, rgb.b); // Black colored strokes
             strokeWeight(4); // Thickness of the shapes
             noFill(); // Inside of the shapes will have nothing inside
 
 
-            // The Squares + Ellipses rotating clockwise and being translated to the center 
-            // push
-            push();
-            translate(points.translation_x, points.translation_y);
-            ellipse(points.midpoint, points.midpoint_2, sizes.s_1);
-            pop();
+            
+            push(); // This will make the shape under it still appear on the canvas [ This piece of code must end with pop(); ]
+            translate(points.translation_x, points.translation_y); // Translates the shape under it to the center of the canvas [200,200]
+            ellipse(points.midpoint, points.midpoint_2, sizes.s_1); // I added one value for the width and height since a ellipse's width and height is the same as it's diameter
+            pop(); 
 
             push();
             translate(points.translation_x, points.translation_y);
-            rotate(angle * movement);
+            rotate(angle * movement); // Amount of degrees that the shape will rotate
             rect(0, 0, sizes.s_2, sizes.s_2);
             pop();
 
             push();
             translate(points.translation_x, points.translation_y);
             rotate(angle * movement);
-            rect(0, 0, sizes.s_3, sizes.s_3);
+            rect(0, 0, sizes.s_3, sizes.s_3); 
             pop();
 
             push();
@@ -92,44 +91,46 @@
             rect(0, 0, sizes.s_4, sizes.s_4);
             pop();
 
-            angle++; // Constantly adds 1 to the variable "angle"
+            angle++; // Constantly adds 1 to the variable "angle" 
         }
 
         function keyPressed() {
-            /* If the left arrow of the keyboard is pressed, change variable "movement" value to -1,
+            /* If the left arrow of the keyboard is pressed, the value assigned to "movement" will change to -1,
             making the shapes turn counterclockwise*/
             if (keyCode === LEFT_ARROW) {
                 movement = -1;
             }
             else if (keyCode === RIGHT_ARROW) {
-                /*If the right arrow of the keyboard is pressed, change variable "movement" value to 1,
-                           making the shapes turn clockwise*/
+                /*If the right arrow of the keyboard is pressed, the value assigned to "movement" will change to 1,
+                making the shapes turn clockwise*/
                 movement = 1;
             }
             else {
-                movement = 0; // If a key other than the left or right arrow on the keyboard is pressed, the movement is 0
+                movement = 0; /* If a key other than the left or right arrow on the keyboard is pressed, 
+                the value assigned to "movement" will change to 0, making the shapes stop rotating [static / frozen] */
             }
         }
 
         function mousePressed() {
-            /* If the left button of the mouse is clicked and the mouse arrow is within the canvas, 
-            make the stroke and background color random*/
+            // If the left button of the mouse is clicked and the mouse arrow is within the canvas...
             if (mouseButton == LEFT && mouseX <= width && mouseY <= height) {
+                // Make the strokes a random color
                 rgb.r = random(25, 255);
                 rgb.g = random(25, 255);
                 rgb.b = random(25, 255);
-
+                   
+                // Make the background a random color
                 backc.bc_1 = random(50, 255);
                 backc.bc_2 = random(50, 255);
                 backc.bc_3 = random(50, 255);
 
-                // Sizes of the shapes change
+                // If the left button of the mouse is clicked, the width and height of the shapes will remain the same as before
                 sizes.s_1 = 60; //Ellipse
-                sizes.s_2 = 120; //The First Square
-                sizes.s_3 = 180; //The Second Square
-                sizes.s_4 = 240; //The Third Square
+                sizes.s_2 = 120; //The First Square [Smallest one]
+                sizes.s_3 = 180; //The Second Square [Middle one]
+                sizes.s_4 = 240; //The Third Square [Largest one]
                 
-                // Make the shapes move to the center of the (400,400) canvas
+                // Make the shapes move to the center of the canvas
                 points.translation_x = 200;
                 points.translation_y = 200;
 
@@ -138,27 +139,30 @@
 
 
         function mouseDragged() {
-            
+            // If the left button of the mouse is clicked and the mouse arrow is within the canvas...
             if (mouseButton == RIGHT && mouseX <= width && mouseY <= height) {
-
+                
+                // Set the background color to black
                 backc.bc_1 = 0;
                 backc.bc_2 = 0;
                 backc.bc_3 = 0;
-
-                sizes.s_1 = 30;
-                sizes.s_2 = 60;
-                sizes.s_3 = 90;
-                sizes.s_4 = 120;
-
+                
+                // If the right button of the mouse is clicked, the width and height of the shapes will become smaller
+                sizes.s_1 = 30; //Ellipse
+                sizes.s_2 = 60; //The First Square [Smallest one]
+                sizes.s_3 = 90; //The Second Square [Middle one]
+                sizes.s_4 = 120; //The Third Square [Largest one]
+                
+                // Set the stroke color to white
                 rgb.r = 255;
                 rgb.g = 255;
                 rgb.b = 255;
 
-                points.translation_x = mouseX;
-                points.translation_y = mouseY;
+                points.translation_x = mouseX; // This will make the shapes move to the X coords of your mouse
+                points.translation_y = mouseY; // This will make the shapes move to the Y coords of your mouse
 
 
-                movement = 1;
+                movement = 1; // This will make the shapes rotate clockwise
             }
 
 
