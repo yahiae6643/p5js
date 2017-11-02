@@ -1,0 +1,183 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+
+<head>
+    <title>p5js Template</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.3/p5.js"></script>
+
+    <script>
+        // Sets the Colors for the strokes
+        let rgb = {
+            r: 0,
+            g: 0,
+            b: 0,
+            a: 255
+        };
+        // Sets the background color
+        let backc = {
+            bc_1: 255,
+            bc_2: 255,
+            bc_3: 255
+        }
+        // Determines If the squares rotate 
+        let angle = 0;
+        
+        // Determines how the squares rotate [Counter-clockwise or Clockwise]
+        let movement = 0;
+            
+        // Sizes For The Ellipse and Squares
+        let sizes = {
+            s_1: 60, //Ellipse
+            s_2: 120, //The First Square
+            s_3: 180, //The Second Square
+            s_4: 240 
+        }
+        
+        //  ellipse midpoint and how much the squares will translate
+        let points = {
+            midpoint: 0, // X coord for the ellipse
+            midpoint_2: 0, // Y coord for the ellipse
+            translation_x: 200, // Adds 200 to every X coord of the shapes
+            translation_y: 200 // Adds 200 to every Y coord of the shapes
+        }
+
+
+
+
+
+
+
+
+        function setup() {
+            createCanvas(400, 400);
+            angleMode(DEGREES);
+            rectMode(CENTER);
+            smooth(); // Makes it smooth ( ͡° ͜ʖ ͡°)
+        }
+
+
+
+
+        function draw() {
+
+            // Stroke and Background set by the values outside "function setup();"
+            background(backc.bc_1, backc.bc_2, backc.bc_3);
+            stroke(rgb.r, rgb.g, rgb.b);
+            strokeWeight(4); // Thickness of the shapes
+            noFill(); // Inside of the shapes will have nothing inside
+
+
+            // The Squares + Ellipses rotating clockwise and being translated to the center 
+            // push
+            push();
+            translate(points.translation_x, points.translation_y);
+            ellipse(points.midpoint, points.midpoint_2, sizes.s_1);
+            pop();
+
+            push();
+            translate(points.translation_x, points.translation_y);
+            rotate(angle * movement);
+            rect(0, 0, sizes.s_2, sizes.s_2);
+            pop();
+
+            push();
+            translate(points.translation_x, points.translation_y);
+            rotate(angle * movement);
+            rect(0, 0, sizes.s_3, sizes.s_3);
+            pop();
+
+            push();
+            translate(points.translation_x, points.translation_y);
+            rotate(angle * movement);
+            rect(0, 0, sizes.s_4, sizes.s_4);
+            pop();
+
+            angle++; // Constantly adds 1 to the variable "angle"
+        }
+
+        function keyPressed() {
+            /* If the left arrow of the keyboard is pressed, change variable "movement" value to -1,
+            making the shapes turn counterclockwise*/
+            if (keyCode === LEFT_ARROW) {
+                movement = -1;
+            }
+            else if (keyCode === RIGHT_ARROW) {
+                /*If the right arrow of the keyboard is pressed, change variable "movement" value to 1,
+                           making the shapes turn clockwise*/
+                movement = 1;
+            }
+            else {
+                movement = 0; // If a key other than the left or right arrow on the keyboard is pressed, the movement is 0
+            }
+        }
+
+        function mousePressed() {
+            /* If the left button of the mouse is clicked and the mouse arrow is within the canvas, 
+            make the stroke and background color random*/
+            if (mouseButton == LEFT && mouseX <= width && mouseY <= height) {
+                rgb.r = random(25, 255);
+                rgb.g = random(25, 255);
+                rgb.b = random(25, 255);
+
+                backc.bc_1 = random(50, 255);
+                backc.bc_2 = random(50, 255);
+                backc.bc_3 = random(50, 255);
+
+                // Sizes of the shapes change
+                sizes.s_1 = 60; //Ellipse
+                sizes.s_2 = 120; //The First Square
+                sizes.s_3 = 180; //The Second Square
+                sizes.s_4 = 240; //The Third Square
+                
+                // Make the shapes move to the center of the (400,400) canvas
+                points.translation_x = 200;
+                points.translation_y = 200;
+
+            } 
+        }
+
+
+        function mouseDragged() {
+            
+            if (mouseButton == RIGHT && mouseX <= width && mouseY <= height) {
+
+                backc.bc_1 = 0;
+                backc.bc_2 = 0;
+                backc.bc_3 = 0;
+
+                sizes.s_1 = 30;
+                sizes.s_2 = 60;
+                sizes.s_3 = 90;
+                sizes.s_4 = 120;
+
+                rgb.r = 255;
+                rgb.g = 255;
+                rgb.b = 255;
+
+                points.translation_x = mouseX;
+                points.translation_y = mouseY;
+
+
+                movement = 1;
+            }
+
+
+        }
+    </script>
+</head>
+
+<body>
+    <div id="code" class="container-fluid">
+        <script src="https://gist-it.appspot.com/github/yahiae6643/p5js/blob/master/interaction_project.html?footer=0"></script>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script>
+        $(window).bind("load", function() {
+            $('#code').before($('#defaultCanvas0').remove());
+        });
+    </script>
+</body>
+
+
+</html>
