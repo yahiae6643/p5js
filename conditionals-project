@@ -1,0 +1,84 @@
+<html>
+
+<head>
+    <title>Drawing</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.3/p5.js">
+    </script>
+
+
+    <script>
+        var x = [40, 120, 200, 280, 360] // Stores all the x-coordinates for the circles
+        var y
+        var rgb = ["red", "blue", "yellow", "green", "white"] // Stores all the colors for the ellipses + trail
+        var col; // Index for the rgb array 
+        
+
+
+
+        function setup() {
+            createCanvas(400, 400)
+            background(100); // Background appears once so the trail can leave marks / drawings
+            y = 350
+        }
+
+        function draw() {
+            // Creates 5 circles on the bottom of the canvas in 5 different colors
+            // As well as change the x coordinate of every circle so they can be spaced evenly
+            for (index = 0; index < 6; index++) {
+                fill(rgb[index]);
+                ellipse(x[index], y, 40, 40);
+            }
+        }
+
+        function mouseDragged() {
+            // If the mouse is within 3/4 of the canvas and the mouse is dragged, a color trail will appear
+            if (mouseY < 300) {
+                fill(rgb[col]) // Color of the trail
+                stroke(rgb[col]) // Color of the trail's stroke
+                ellipse(mouseX, mouseY, 30, 30) // Trail that follows the cursor
+            }
+        }
+
+        function mousePressed() {
+            // If buttons are pressed
+            if (mouseX > x[0] - 20 && mouseX < x[0] + 20 && mouseY > y - 20 && mouseY < y + 20) {
+                col = 0; // Red button changes the trail's color + stroke to red
+            }
+            else if (mouseX > x[1] - 20 && mouseX < x[1] + 20 && mouseY > y - 20 && mouseY < y + 20) {
+                col = 1; // Blue button changes the trail's color + stroke to blue
+            }
+            else if (mouseX > x[2] - 20 && mouseX < x[2] + 20 && mouseY > y - 20 && mouseY < y + 20) {
+                col = 2; // Yellow button changes the trail's color + stroke to yellow
+            }
+            else if (mouseX > x[3] - 20 && mouseX < x[3] + 20 && mouseY > y - 20 && mouseY < y + 20) {
+                col = 3; // Green button changes the trail's color + stroke to green
+            }
+            else if (mouseX > x[4] - 20 && mouseX < x[4] + 20 && mouseY > y - 20 && mouseY < y + 20) {
+                // Clears 3/4 of the canvas [Clears drawings]
+                noStroke();
+                fill(100);
+                rectMode(CORNER)
+                rect(0, 0, 400, 325)
+            }
+            else {
+                col = col // Color will still stay the same even when you press the white button
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <div id="code" class="container-fluid">
+        <script src="https://gist-it.appspot.com/github/yahiae6643/p5js/blob/master/project.html?footer=0"></script>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script>
+        $(window).bind("load", function() {
+            $('#code').before($('#defaultCanvas0').remove());
+        });
+    </script>
+</body>
+
+
+</html>
