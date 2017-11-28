@@ -7,18 +7,18 @@
 
 
     <script>
-        var x = [40, 120, 200, 280, 360] // Stores all the x-coordinates for the circles
+        var x = [60, 180, 300, 420, 540] // Stores all the x-coordinates for the circles
         var y
         var rgb = ["red", "blue", "yellow", "green", "white"] // Stores all the colors for the ellipses + trail
         var col; // Index for the rgb array 
-        
+
 
 
 
         function setup() {
-            createCanvas(400, 400)
+            createCanvas(600, 600)
             background(100); // Background appears once so the trail can leave marks / drawings
-            y = 350
+            y = 550
         }
 
         function draw() {
@@ -31,8 +31,8 @@
         }
 
         function mouseDragged() {
-            // If the mouse is within 3/4 of the canvas and the mouse is dragged, a color trail will appear
-            if (mouseY < 300) {
+            // If the mouse is within 5/6 of the canvas and the mouse is dragged, a color trail will appear
+            if (mouseY < 500) {
                 fill(rgb[col]) // Color of the trail
                 stroke(rgb[col]) // Color of the trail's stroke
                 ellipse(mouseX, mouseY, 30, 30) // Trail that follows the cursor
@@ -54,11 +54,11 @@
                 col = 3; // Green button changes the trail's color + stroke to green
             }
             else if (mouseX > x[4] - 20 && mouseX < x[4] + 20 && mouseY > y - 20 && mouseY < y + 20) {
-                // Clears 3/4 of the canvas [Clears drawings]
+                // Clears 5/6 of the canvas [Clears drawings]
                 noStroke();
                 fill(100);
                 rectMode(CORNER)
-                rect(0, 0, 400, 325)
+                rect(0, 0, 600, 525)
             }
             else {
                 col = col // Color will still stay the same even when you press the white button
