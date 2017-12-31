@@ -1,3 +1,4 @@
+Reset
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 
@@ -48,25 +49,33 @@
 
 
         function keyPressed() {
-
+            // The "else return false;" prevents the page from scrolling down
             // If you press "A," the red paddle will move to the left
             if (keyCode == 65) {
                 x -= speed
+            } else {
+                return false;
             }
 
             // If you press "D," the red paddle will move to the right
             if (keyCode == 68) {
                 x += speed
+            } else { 
+                return false;
             }
 
             // If you press the left arrow, the blue paddle will move to the left
             if (keyCode == LEFT_ARROW) {
                 x2 -= speed
+            } else {
+                return false;
             }
 
             // If you press the right arrow, the blue paddle will move to the right
             if (keyCode == RIGHT_ARROW) {
                 x2 += speed
+            } else {
+                return false;
             }
 
             // If you press "P," the game will pause
@@ -76,6 +85,8 @@
             }
             else if (!paused) { // If the game isn't paused or if you press "P" when it's paused, everything will function / move 
                 speed = 20
+            } else {
+                return false;
             }
 
             // Shows the X coordinates of both paddles in the console
