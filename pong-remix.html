@@ -1,0 +1,200 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+
+<head>
+    <title>Pong</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.4.13/p5.js"></script>
+    <script>
+        var ballX; //The x-coordinate of the ball
+        var ballY; //The y-coordinate of the ball
+        var ballSpeedX = 3; //How fast the ball goes horizontally
+        var ballSpeedY = 3; //How fast the ball goes vertically
+        var paddleHeight = 30; //The height of the red and blue paddle
+        var x, x2; //The x-coordinate for both paddles
+        var score; // The score for the red paddle
+        var score2; // The score for the blue paddle
+        var speed = 20; // How fast the paddles moves
+        var paused; // Used to pause the game
+
+
+
+        function setup() {
+            createCanvas(800, 600);
+            noCursor(); // Doesn't show the cursor
+            ballX = random(width); // The ball spawns randomly from the left of the canvas and the right of the canvas
+            ballY = random(200, 400); // The ball spawns randomly between a small part of the canvas vertically
+            x = width / 2 // Sets the x-coord of the red paddle to the center of the canvas
+            x2 = width / 2 // Sets the x-coord of the blue paddle to the center of the canvas
+            score = 0 // Sets the points for the red paddle
+            score2 = 0 // Sets the points for the blue paddle
+            paused = false // The game is not paused in the beginning
+            rectMode(CENTER) // The (x,y) of the paddles will be set in the center of the paddles
+            textAlign(CENTER) // // The (x,y) of the text will be set to it's center
+
+
+        }
+
+        function draw() {
+            background(0); // Sets the background to black
+            scoreboard(); // Displays the score of the two paddles
+            moveBall(); // Moves the ball
+            checkCollide(); // Makes the ball bounce by colliding from the left or right walls or paddles
+            drawPaddles(); // Creates the paddles
+            drawBall(); // Creates the ball
+            win(); // Sets how much points each paddle needs to win
+        }
+
+
+
+
+        function keyPressed() {
+
+            // If you press "A," the red paddle will move to the left
+            if (keyCode == 65) {
+                x -= speed
+            }
+
+            // If you press "D," the red paddle will move to the right
+            if (keyCode == 68) {
+                x += speed
+            }
+
+            // If you press the left arrow, the blue paddle will move to the left
+            if (keyCode == LEFT_ARROW) {
+                x2 -= speed
+            }
+
+            // If you press the right arrow, the blue paddle will move to the right
+            if (keyCode == RIGHT_ARROW) {
+                x2 += speed
+            }
+
+            // If you press "P," the game will pause
+            if (keyCode == 80) {
+                paused = !paused
+                speed = 0;
+            }
+            else if (!paused) { // If the game isn't paused or if you press "P" when it's paused, everything will function / move like before
+                speed = 20
+            }
+
+            // Shows the X coordinates of both paddles in the console
+            console.log("X: " + x + ",X2: " + x2)
+        }
+
+        function moveBall() {
+            // The ball moves if the game isn't paused
+            if (!paused) {
+                ballX = ballX + ballSpeedX;
+                ballY = ballY + ballSpeedY;
+            }
+
+            // Displays the horizonal and vertical speed of the ball
+            console.log("ballSpeedX: " + ballSpeedX +
+                ", ballSpeedY: " + ballSpeedY);
+        }
+
+        function checkCollide() {
+            // If the ball hits the left or right wall, the ball bounces to the direction opposite to what it hits
+            if (ballX < 0 || ballX > width) {
+                ballSpeedX = ballSpeedX * -1;
+            }
+
+            if (ballY > height - paddleHeight - 15) { // ball is past the top side of red paddle vertically
+                if (ballX > x - 100 && ballX < x + 100) { // ball is within red paddle horizontally
+                    ballSpeedX = map(ballX, x - 100, x + 100, -3, 3) // ball bounces at a certain angle depending on where it hits the red paddle
+                    ballSpeedY *= -1 // ball bounces upward
+
+                }
+                else { // If the ball passes the top side of the red paddle and doesn't hit the red paddle, the ball will spawn where it first began and the blue paddle will score a point 
+                    ballX = random(width);
+                    ballY = random(200, 400);
+                    score2++
+                }
+            }
+
+
+            if (ballY < paddleHeight + 15) { // ball is past the top side of blue paddle vertically
+                if (ballX > x2 - 100 && ballX < x2 + 100) { // ball is within blue paddle horizontally
+                    ballSpeedX = map(ballX, x2 - 100, x2 + 100, -3, 3) // ball bounces at a certain angle depending on where it hits the blue paddle
+                    ballSpeedY *= -1 // ball bounces downward
+                }
+                else { // If the ball hits passes the top side of the blue paddle and doesn't hit the blue paddle, the ball will spawn where it first began and the red paddle score a point
+                    ballX = random(width);
+                    ballY = random(200, 400);
+                    score++
+                }
+            }
+        }
+
+        function drawBall() {
+            // Draws a small ball with no outline and a white fill 
+            noStroke();
+            fill(255)
+            ellipse(ballX, ballY, 20, 20);
+        }
+
+        function drawPaddles() {
+            // Creates the red paddle with a height of 30 pixels & a width of 200 pixels and it can't go past the left or right side of the canvas
+            fill(255, 0, 0)
+            x = constrain(x, 100, 700)
+            rect(x, height - paddleHeight, 200, paddleHeight);
+
+            // Creates the blue paddle with a height of 30 pixels & a width of 200 pixels and it can't go past the left or right side of the canvas
+            fill(0, 0, 255)
+            x2 = constrain(x2, 100, 700)
+            rect(x2, paddleHeight, 200, paddleHeight);
+        }
+
+        function scoreboard() {
+            // Sets the scoreboard in the middle of the canvas
+            // The size of the text is 50 pixels
+            // The points for the red paddle is the number colored in red
+            // The points for the blue paddle is the number colored in blue
+            textSize(50);
+            fill(255, 0, 0)
+            text(score, 350, height / 2)
+
+            fill(255)
+            text(":", width / 2, height / 2)
+
+            fill(0, 0, 255)
+            text(score2, 450, height / 2)
+        }
+
+        function win() {
+            /* If blue scores 10 points, everything will become black, every process will stop and a text in the middle of the canvas
+            will state that the player who controlled the blue paddle wins*/
+            if (score2 == 10) {
+                background(0)
+                noLoop();
+                text("BLUE WINS", width / 2, height / 2)
+            }
+            
+             /* If red scores 10 points, everything will become black, every process will stop and a text in the middle of the canvas
+            will state that the player who controlled the red paddle wins*/
+            if (score == 10) {
+                background(0)
+                noLoop();
+                text("RED WINS", width / 2, height / 2)
+            }
+        }
+    </script>
+</head>
+
+<body>
+<form><input TYPE="button" onClick="history.go(0)" value="Reset"></form>
+    <div id="code" class="container-fluid">
+        <script src="https://gist-it.appspot.com/github/yahiae6643/p5js/blob/master/pong-remix.html?footer=0"></script>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script>
+        $(window).bind("load", function() {
+            $('#code').before($('#defaultCanvas0').remove());
+        });
+    </script>
+</body>
+
+
+</html>
