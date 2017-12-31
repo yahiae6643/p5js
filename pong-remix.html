@@ -27,7 +27,7 @@
             x2 = width / 2 // Sets the x-coord of the blue paddle to the center of the canvas
             score = 0 // Sets the points for the red paddle
             score2 = 0 // Sets the points for the blue paddle
-            paused = false // The game is not paused in the beginning
+            paused = true // The game is paused in the beginning
             rectMode(CENTER) // The (x,y) of the paddles will be set in the center of the paddles
             textAlign(CENTER) // // The (x,y) of the text will be set to it's center
 
@@ -74,7 +74,7 @@
                 paused = !paused
                 speed = 0;
             }
-            else if (!paused) { // If the game isn't paused or if you press "P" when it's paused, everything will function / move like before
+            else if (!paused) { // If the game isn't paused or if you press "P" when it's paused, everything will function / move 
                 speed = 20
             }
 
