@@ -61,9 +61,9 @@
 
             // Places 27 buttons within the buttons' array
             for (i = 0; i < 9; i++) {
-                buttons.push(new Button(120 + (i * 30), 325, letters[i], 20))
-                buttons.push(new Button(120 + (i * 30), 350, letters[9 + i], 20))
-                buttons.push(new Button(120 + (i * 30), 375, letters[18 + i], 20))
+                buttons.push(new Button(130 + (i * 30), 325, letters[i], 20))
+                buttons.push(new Button(130 + (i * 30), 350, letters[9 + i], 20))
+                buttons.push(new Button(130 + (i * 30), 375, letters[18 + i], 20))
             }
 
             /*This will remove the 27th button since the amount of buttons must be the same
@@ -99,7 +99,7 @@
 
             // This will display all the + symbols from the lettersChosen array onto the screen
             for (i = 0; i <= lettersChosen.length - 1; i++) {
-                text(lettersChosen[i], 50 + (50 * i), 30)
+                text(lettersChosen[i], 130 + (30 * i), 300)
             }
 
             // This will display all the buttons and letters on top of them
@@ -110,22 +110,25 @@
             // This will display the current topic you're on
             text("Topic: " + topics[index], width / 2, height - 50)
 
-            // Loops back to the first topic when you click after the last topic
-            if (index == topics.length) {
-                index = 0
-            }
 
 
 
 
+
+            
+            
             // Displays the hanger
             hanger()
-
+            
             // Displays the stickman and it's functions
             stick_figure()
-
+            
             // Displays the topicButton and it's functions
             topicButton.show()
+            
+            
+            
+            
 
         }
 
@@ -143,11 +146,16 @@
             // Lines that make up parts of the hanger
             // The lines will be black and thick
             stroke(0)
+            
             strokeWeight(4)
-            line(width / 2 - 100, 100, width / 2 - 100, 250)
-            line(width / 2 - 150, 250, width / 2 - 50, 250)
-            line(width / 2 - 100, 100, width / 2 - 50, 100)
-            line(width / 2 - 50, 100, width / 2 - 50, 125)
+            
+            line(width / 2, 100, width / 2 , 250)
+            
+            line(width / 2 - 50, 250, width / 2 + 50, 250)
+            
+            line(width / 2, 100, width / 2 + 50, 100)
+            
+            line(width / 2 + 50, 100, width / 2 + 50, 125)
         }
 
         function stick_figure() {
@@ -157,27 +165,27 @@
 
             // If you make one mistake, the head of the stick-figure will appear
             if (mistakes >= 1) {
-                ellipse(width / 2 - 50, 140, 30)
+                ellipse(width / 2 + 50, 140, 30)
             }
 
             // If you make two mistakes, the torso of the stick-figure will appear
             if (mistakes >= 2) {
-                line(width / 2 - 50, 155, width / 2 - 50, 200)
+                line(width / 2 + 50, 155, width / 2 + 50, 200)
             }
 
             // If you make three mistakes, the right arm of the stick-figure will appear
             if (mistakes >= 3) {
-                line(width / 2 - 50, 160, width / 2 - 75, 175)
+                line(width / 2 + 50, 160, width / 2 + 75, 175)
             }
 
             // If you make four mistakes, the left arm of the stick-figure will appear
             if (mistakes >= 4) {
-                line(width / 2 - 50, 160, width / 2 - 25, 175)
+                line(width / 2 + 50, 160, width / 2 + 25, 175)
             }
 
             // If you make five mistakes, the right leg of the stick-figure will appear
             if (mistakes >= 5) {
-                line(width / 2 - 50, 200, width / 2 - 25, 225)
+                line(width / 2 + 50, 200, width / 2 + 25, 225)
             }
 
             /* If you make six mistakes, the left leg of the stick-figure will appear, 
@@ -185,10 +193,10 @@
             */
 
             if (mistakes == 6) {
-                line(width / 2 - 50, 200, width / 2 - 75, 225)
+                line(width / 2 + 50, 200, width / 2 + 75, 225)
                 strokeWeight(.5)
                 textSize(15)
-                text("Game Over, the word was \n " + randomChosenWord.join(''), 350, 200)
+                text("Game Over, the word was \n " + randomChosenWord.join(''), width/2, 50)
                 noLoop()
             }
         }
@@ -229,33 +237,18 @@
                 if (mouseX > topicButton.x - 10 && mouseX < topicButton.x + 10 && mouseY > topicButton.y - 10 && mouseY < topicButton.y + 10) {
                     index++
                     activate = true
-                    /* If you have the food topic, reset the mistakes to 0, make the random word chosen from the first wordBank, 
-                    change all of the buttons' color back to grey, and remove all the letters from the letterChosen array with a # of "+" symbols 
+
+                    if (index == 1) {
+                        /* If you have the food topic, reset the mistakes to 0, make the random word chosen from the first wordBank, 
+                    change all of the buttons' color back to grey, and remove all the letters from the letterChosen array and push a # of "+" symbols 
                     that is the same as the random word's length */
-                    if (index == 0) {
-                        mistakes = 0
-                        randomChosenWord = wordBank1[round(random(wordBank1.length - 1))].split('')
-                        for (i = 0; i < randomChosenWord.length; i++) {
-                            lettersChosen.splice(i, 1, "+")
-                        }
-            
-                        for (i = 0; i < buttons.length; i++) {
-                            buttons[i].r = 50
-                            buttons[i].g = 50
-                            buttons[i].b = 50
-                        }
-        
-                    }
-                     /* If you have the classes topic, reset the mistakes to 0, make the random word chosen from the second wordBank, 
-                    change all of the buttons' color back to grey, and remove all the letters from the letterChosen array with a # of "+" 
-                    symbols that is the same as the random word's length */
-                    
-                    else if (index == 1) {
                         mistakes = 0
                         randomChosenWord = wordBank2[round(random(wordBank2.length - 1))].split('')
 
+                        lettersChosen = []
+
                         for (i = 0; i < randomChosenWord.length; i++) {
-                            lettersChosen.splice(i, 1, "+")
+                            lettersChosen.push("+")
                         }
 
                         for (i = 0; i < buttons.length; i++) {
@@ -265,17 +258,18 @@
                         }
 
                     }
-                    
-                     /* If you have the countries topic, reset the mistakes to 0, make the random word chosen from the third wordBank, 
-                    change all of the buttons' color back to grey, and remove all the letters from the letterChosen array with a # of "+" 
-                    symbols that is the same as the random word's length */
-                    
+
                     else if (index == 2) {
+                         /* If you have the food topic, reset the mistakes to 0, make the random word chosen from the first wordBank, 
+                    change all of the buttons' color back to grey, and remove all the letters from the letterChosen array and push a # of "+" symbols 
+                    that is the same as the random word's length */
                         mistakes = 0
                         randomChosenWord = wordBank3[round(random(wordBank3.length - 1))].split('')
 
+                        lettersChosen = []
+
                         for (i = 0; i < randomChosenWord.length; i++) {
-                            lettersChosen.splice(i, 1, "+")
+                            lettersChosen.push("+")
                         }
 
                         for (i = 0; i < buttons.length; i++) {
@@ -286,16 +280,31 @@
 
                     }
                     else {
-                        // This makes everything reloop once you press the topic button after the last topic
+                        /* If you have the food topic, reset the mistakes to 0, make the random word chosen from the first wordBank, 
+                    change all of the buttons' color back to grey, and remove all the letters from the letterChosen array and push a # of "+" symbols 
+                    that is the same as the random word's length */
                         mistakes = 0
                         randomChosenWord = wordBank1[round(random(wordBank1.length - 1))].split('')
 
+                        lettersChosen = []
+
                         for (i = 0; i < randomChosenWord.length; i++) {
-                            lettersChosen.splice(i, 1, "+")
+                            lettersChosen.push("+")
                         }
 
+                        for (i = 0; i < buttons.length; i++) {
+                            buttons[i].r = 50
+                            buttons[i].g = 50
+                            buttons[i].b = 50
+                        }
+                    }
+
+                    // Loops back to the first topic when you click after the last topic
+                    if (index == topics.length) {
+                        index = 0
                     }
                 }
+
 
             }
 
