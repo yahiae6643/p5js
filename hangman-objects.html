@@ -1,0 +1,360 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+
+<head>
+    <title>p5js Template</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.3/p5.js"></script>
+
+    <script>
+        // *The words that will be used in the game*
+
+        // Foods
+        var wordBank1 = ["pizza", "pie", "cookie", "candy", "salad", "chicken", "pork", "burger", "fries"]
+
+        // Classes
+        var wordBank2 = ["chemistry", "algebra", "history", "programming", "spanish", "english", "honors"]
+
+        //Countries
+        var wordBank3 = ["sudan", "brazil", "poland", "france", "colombia", "norway", "nigeria", "uganda"]
+
+        //The letters [A - Z] to place on the buttons
+        var letters = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
+
+        // The switch used to deactivate the buttons [The buttons can no longer be clicked]
+        var activate = true
+
+        // Chooses a random word from any wordBank
+        var randomChosenWord
+
+        //Letters the user chooses
+        var lettersChosen = []
+
+
+        //The buttons will all be stored in a array since there are multiple
+        var buttons = [];
+
+        // A button on the bottom right of the screen used to switch the wordBanks / Topics of the game when pressed
+        // It will have S on top of it, which means "switch"
+        var topicButton = new Button(480, 450, "S")
+
+        // Topics that are associated to the wordBanks [ex: pizza would be in the food topic]
+        var topics = ["Food", "Classes", "Countries"]
+
+        // A variable that changes the topic when it increases 
+        var index = 0;
+
+        // Amount of times you guessed a letter incorrectly
+        var mistakes = 0
+
+
+
+        function setup() {
+            createCanvas(500, 500);
+
+            //Turns the random word into a array
+            randomChosenWord = wordBank1[round(random(wordBank1.length))].split('')
+
+            textSize(30)
+
+
+
+
+            // Places 27 buttons within the buttons' array
+            for (i = 0; i < 9; i++) {
+                buttons.push(new Button(120 + (i * 30), 325, letters[i], 20))
+                buttons.push(new Button(120 + (i * 30), 350, letters[9 + i], 20))
+                buttons.push(new Button(120 + (i * 30), 375, letters[18 + i], 20))
+            }
+
+            /*This will remove the 27th button since the amount of buttons must be the same
+            as the # of letters in the alphabet, which is 26. */
+
+            buttons.splice(-1, 1)
+
+
+
+            textAlign(CENTER)
+            rectMode(CENTER)
+
+            // This will place a # of + signs that is the same amount as the length of the randomly chosen word in the lettersChosen array
+
+            for (i = 0; i < randomChosenWord.length; i++) {
+                lettersChosen.push("+")
+            }
+
+        }
+
+
+        function draw() {
+            background(255)
+
+            /*If you guess all the right letters and when combined that it will make the same word as the randomly chosen word,
+            the game will congratulate you and all the buttons can no longer be clicked until you press the topic button */
+
+            if (randomChosenWord.join(' ') == lettersChosen.join(' ')) {
+                text("Nice!, try another topic!", 350, 200)
+                activate = false
+            }
+
+
+            // This will display all the + symbols from the lettersChosen array onto the screen
+            for (i = 0; i <= lettersChosen.length - 1; i++) {
+                text(lettersChosen[i], 50 + (50 * i), 30)
+            }
+
+            // This will display all the buttons and letters on top of them
+            for (i = 0; i < buttons.length; i++) {
+                buttons[i].show()
+            }
+
+            // This will display the current topic you're on
+            text("Topic: " + topics[index], width / 2, height - 50)
+
+            // Loops back to the first topic when you click after the last topic
+            if (index == topics.length) {
+                index = 0
+            }
+
+
+
+
+            // Displays the hanger
+            hanger()
+
+            // Displays the stickman and it's functions
+            stick_figure()
+
+            // Displays the topicButton and it's functions
+            topicButton.show()
+
+        }
+
+        function mousePressed() {
+            // Checks if any button is clicked
+            for (i = 0; i < buttons.length; i++) {
+                buttons[i].click()
+            }
+
+            // Checks if the topic button is clicked
+            topicButton.checkTopic()
+        }
+
+        function hanger() {
+            // Lines that make up parts of the hanger
+            // The lines will be black and thick
+            stroke(0)
+            strokeWeight(4)
+            line(width / 2 - 100, 100, width / 2 - 100, 250)
+            line(width / 2 - 150, 250, width / 2 - 50, 250)
+            line(width / 2 - 100, 100, width / 2 - 50, 100)
+            line(width / 2 - 50, 100, width / 2 - 50, 125)
+        }
+
+        function stick_figure() {
+            fill(0)
+            stroke(0)
+
+
+            // If you make one mistake, the head of the stick-figure will appear
+            if (mistakes >= 1) {
+                ellipse(width / 2 - 50, 140, 30)
+            }
+
+            // If you make two mistakes, the torso of the stick-figure will appear
+            if (mistakes >= 2) {
+                line(width / 2 - 50, 155, width / 2 - 50, 200)
+            }
+
+            // If you make three mistakes, the right arm of the stick-figure will appear
+            if (mistakes >= 3) {
+                line(width / 2 - 50, 160, width / 2 - 75, 175)
+            }
+
+            // If you make four mistakes, the left arm of the stick-figure will appear
+            if (mistakes >= 4) {
+                line(width / 2 - 50, 160, width / 2 - 25, 175)
+            }
+
+            // If you make five mistakes, the right leg of the stick-figure will appear
+            if (mistakes >= 5) {
+                line(width / 2 - 50, 200, width / 2 - 25, 225)
+            }
+
+            /* If you make six mistakes, the left leg of the stick-figure will appear, 
+            it will be game over and the game will stop
+            */
+
+            if (mistakes == 6) {
+                line(width / 2 - 50, 200, width / 2 - 75, 225)
+                strokeWeight(.5)
+                textSize(15)
+                text("Game Over, the word was \n " + randomChosenWord.join(''), 350, 200)
+                noLoop()
+            }
+        }
+
+
+
+        function Button(x, y, letter) {
+            //Variables
+
+            // Each button will be its own x and y coordinate
+            this.x = x
+            this.y = y
+
+            // Every INDIVIDUAL button will be gray
+            this.r = 50
+            this.g = 50
+            this.b = 50
+
+            // Every INDIVIDUAL button will have its own letter
+            this.letter = letter
+            this.size = 20
+
+            //Functions
+            this.show = function() {
+                // Every button would be a rect with a letter from the middle
+                noStroke()
+                fill(this.r, this.g, this.b, 30)
+                rect(this.x, this.y, this.size, this.size)
+
+                fill(0)
+                textSize(20)
+                text(this.letter, this.x, this.y + 7)
+
+            }
+
+            this.checkTopic = function() {
+                // If the topic button is pressed, change the topic and reactivate the buttons
+                if (mouseX > topicButton.x - 10 && mouseX < topicButton.x + 10 && mouseY > topicButton.y - 10 && mouseY < topicButton.y + 10) {
+                    index++
+                    activate = true
+                    /* If you have the food topic, reset the mistakes to 0, make the random word chosen from the first wordBank, 
+                    change all of the buttons' color back to grey, and remove all the letters from the letterChosen array with a # of "+" symbols 
+                    that is the same as the random word's length */
+                    if (index == 0) {
+                        mistakes = 0
+                        randomChosenWord = wordBank1[round(random(wordBank1.length - 1))].split('')
+                        for (i = 0; i < randomChosenWord.length; i++) {
+                            lettersChosen.splice(i, 1, "+")
+                        }
+            
+                        for (i = 0; i < buttons.length; i++) {
+                            buttons[i].r = 50
+                            buttons[i].g = 50
+                            buttons[i].b = 50
+                        }
+        
+                    }
+                     /* If you have the classes topic, reset the mistakes to 0, make the random word chosen from the second wordBank, 
+                    change all of the buttons' color back to grey, and remove all the letters from the letterChosen array with a # of "+" 
+                    symbols that is the same as the random word's length */
+                    
+                    else if (index == 1) {
+                        mistakes = 0
+                        randomChosenWord = wordBank2[round(random(wordBank2.length - 1))].split('')
+
+                        for (i = 0; i < randomChosenWord.length; i++) {
+                            lettersChosen.splice(i, 1, "+")
+                        }
+
+                        for (i = 0; i < buttons.length; i++) {
+                            buttons[i].r = 50
+                            buttons[i].g = 50
+                            buttons[i].b = 50
+                        }
+
+                    }
+                    
+                     /* If you have the countries topic, reset the mistakes to 0, make the random word chosen from the third wordBank, 
+                    change all of the buttons' color back to grey, and remove all the letters from the letterChosen array with a # of "+" 
+                    symbols that is the same as the random word's length */
+                    
+                    else if (index == 2) {
+                        mistakes = 0
+                        randomChosenWord = wordBank3[round(random(wordBank3.length - 1))].split('')
+
+                        for (i = 0; i < randomChosenWord.length; i++) {
+                            lettersChosen.splice(i, 1, "+")
+                        }
+
+                        for (i = 0; i < buttons.length; i++) {
+                            buttons[i].r = 50
+                            buttons[i].g = 50
+                            buttons[i].b = 50
+                        }
+
+                    }
+                    else {
+                        // This makes everything reloop once you press the topic button after the last topic
+                        mistakes = 0
+                        randomChosenWord = wordBank1[round(random(wordBank1.length - 1))].split('')
+
+                        for (i = 0; i < randomChosenWord.length; i++) {
+                            lettersChosen.splice(i, 1, "+")
+                        }
+
+                    }
+                }
+
+            }
+
+
+
+
+
+
+
+
+
+
+
+            this.click = function() {
+                /* If the buttons are working and if you click a button with a letter 
+                that is included within the randomly chosen word, replace the symbol within the lettersChosen
+                array that holds the place of the letter with the actual letter*/
+                if (activate) {
+                    if (mouseX > this.x - 10 && mouseX < this.x + 10 && mouseY > this.y - 10 && mouseY < this.y + 10) {
+                        if (randomChosenWord.includes(this.letter)) {
+                            for (var i = 0; i < randomChosenWord.length; i++) {
+                                if (randomChosenWord[i] === this.letter) {
+                                    lettersChosen.splice(i, 1, this.letter);
+                                }
+                            }
+
+                        }
+                        else {
+                            /* If the letter chosen is incorrect, change the individual button's color to red 
+                            and increase your # of mistakes by 1 */
+                            mistakes++
+                            this.r = 255
+                            this.g = 0
+                            this.b = 0
+
+                            console.log(mistakes) // Just for checking the amount of mistakes
+                        }
+
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body>
+<form><input TYPE="button" onClick="history.go(0)" value="Reset"></form>
+    <div id="code" class="container-fluid">
+        <script src="https://gist-it.appspot.com/github/yahiae6643/p5js/blob/master/hangman-objects.html?footer=0"></script>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script>
+        $(window).bind("load", function() {
+            $('#code').before($('#defaultCanvas0').remove());
+        });
+    </script>
+</body>
+
+
+
+</html>
